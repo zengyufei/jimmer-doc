@@ -25,6 +25,10 @@ jobs:
         with:
           fetch-depth: 0
           
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
@@ -42,10 +46,6 @@ jobs:
         name: List the state of node modules
         continue-on-error: true
         run: ls ~/npm
-          
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 18
           
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install yarn
