@@ -50,6 +50,8 @@ jobs:
         
       - run: npm install -g yarn
       
+      - run: yarn config list
+      
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install dependencies
         run: yarn install
