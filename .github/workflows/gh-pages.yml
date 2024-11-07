@@ -36,7 +36,7 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/npm
+          path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./package.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -46,11 +46,8 @@ jobs:
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
-        run: ls ~/npm
+        run: ls ~/.npm
         
-      - run: ls /opt/hostedtoolcache
-      - run: ls /opt/hostedtoolcache/node
-      - run: ls /opt/hostedtoolcache/node/18.20.4
       - run: ls /opt/hostedtoolcache/node/18.20.4/x64
           
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
@@ -60,8 +57,14 @@ jobs:
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install dependencies
         run: yarn install
+
+        
+      - run: ls /opt/hostedtoolcache/node/18.20.4/x64
+      - run: ls ~/.npm
         
       - run: yarn build
+
+      
       
       # Step 12: 上传到当前构建的 Artifact
       - name: Upload APK Artifact
