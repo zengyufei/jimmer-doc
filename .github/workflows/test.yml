@@ -17,6 +17,4 @@ jobs:
         with:
           node-version: 18
       - run: npm install -g yarn
-      - run: ls ~/
-      - run: ls ~/.cache
-      - run: ls ~/.cache/yarn
+      - run: yarn config list
