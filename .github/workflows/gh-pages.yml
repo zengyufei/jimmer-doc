@@ -50,8 +50,6 @@ jobs:
         
       - run: npm install -g yarn
       
-      - run: yarn config list
-      
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install dependencies
         run: yarn install
@@ -61,7 +59,9 @@ jobs:
       - name: Rename Build
         run: |
           ls
+          echo "==========================="
           mv ./build ./jimmer-doc
+          echo "==========================="
           ls
           
       - name: Zip
@@ -84,5 +84,5 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: ./jimmer-doc.zip
-          asset_name: jimmer-doc
+          asset_name: jimmer-doc.zip
           tag: release
