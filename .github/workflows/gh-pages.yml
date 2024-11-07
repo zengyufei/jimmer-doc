@@ -28,6 +28,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
+          cache: 'npm'
           
       - name: Cache node modules
         id: cache-npm
@@ -46,6 +47,11 @@ jobs:
         name: List the state of node modules
         continue-on-error: true
         run: ls ~/npm
+        
+      - run: ls /opt/hostedtoolcache
+      - run: ls /opt/hostedtoolcache/node
+      - run: ls /opt/hostedtoolcache/node/18.20.4
+      - run: ls /opt/hostedtoolcache/node/18.20.4/x64
           
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install yarn
