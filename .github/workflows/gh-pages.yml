@@ -7,6 +7,12 @@ on:
   pull_request:
     branches:
       - main
+      
+# 声明需要上传权限
+permissions:
+  contents: write
+  actions: read
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,9 +30,17 @@ jobs:
       - run: npm install -g yarn
       - run: yarn install
       - run: yarn build
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
-        if: ${{ github.ref == 'refs/heads/main' }}
+      
+      - name: 压缩文件
+        run: |
+          tar -zcvf build.tar.gz ./build
+
+      # Step 12: 上传到当前构建的 Artifact
+      - name: Upload APK Artifact
+        if: success()
+        uses: actions/upload-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          name: build.tar.gz
+          path: build.tar.gz
+          if-no-files-found: warn
+          retention-days: 90
