@@ -61,13 +61,13 @@ jobs:
             ${{ runner.os }}-
 
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-yarn.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
         run: |
           ls
           
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-yarn.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
         run: |
