@@ -33,7 +33,7 @@ jobs:
         continue-on-error: true
         run: |
           cd ~
-          ls -l
+          ls -a
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
