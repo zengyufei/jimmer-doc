@@ -65,7 +65,9 @@ jobs:
         name: List the state of node modules
         continue-on-error: true
         run: |
-          ls
+          ls /home/runner/.cache
+          ls /home/runner/.cache/yarn
+          ls /home/runner/.cache/yarn/v6
           
       - if: ${{ steps.cache-yarn.outputs.cache-hit != 'true' }}
         name: List the state of node modules
