@@ -53,8 +53,7 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
+      - name: List the state of node modules
         continue-on-error: true
         run: |
           ls
@@ -67,8 +66,7 @@ jobs:
         name: Install yarn
         run: npm install -g yarn
         
-      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
+      - name: List the state of node modules
         continue-on-error: true
         run: |
           yarn -v
