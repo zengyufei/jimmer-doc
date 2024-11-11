@@ -28,33 +28,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      - name: look
-        continue-on-error: true
-        run: |
-          cd ~
-          ls -a runners
-          echo "================================"
-          ls -a work
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
-          echo "::set-output name=version::$(yarn -v)"
           
-      - name: Cache node yarn
-        id: cache-yarn
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-yarn
-        with:
-          path: |
-              ~/.cache
-              ~/.npm
-          key: ${{ runner.os }}-yarn-${{ steps.yarn-cache-dir-path.outputs.version }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-${{ steps.yarn-cache-dir-path.outputs.version }}
           
       - name: Cache node modules
         id: cache-modules
@@ -69,27 +43,6 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-
-      - if: ${{ steps.cache-yarn.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: |
-          ls /home/runner/.cache
-          ls /home/runner/.cache/yarn
-          ls /home/runner/.cache/yarn/v6
-          
-      - if: ${{ steps.cache-yarn.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: |
-          pwd
-          yarn -v
-          yarn cache dir
-      
-      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
-        name: Install dependencies
-        run: yarn install
-        
       - run: yarn build
             
       - name: Rename Build
