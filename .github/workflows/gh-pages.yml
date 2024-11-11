@@ -29,9 +29,19 @@ jobs:
         with:
           node-version: 18
 
+      - name: Cache node npm
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-npm
+        with:
+          path: ~/npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
           
       - name: Cache node modules
-        id: cache-npm
+        id: cache-modules
         uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
@@ -43,14 +53,16 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
         run: ls && pwd
         
-      - run: npm install -g yarn
-      
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: Install yarn
+        run: npm install -g yarn
+      
+      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
         name: Install dependencies
         run: yarn install
         
