@@ -56,11 +56,31 @@ jobs:
       - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
         name: List the state of node modules
         continue-on-error: true
-        run: ls && pwd
+        run: |
+          ls
+          pwd
+          yarn -v
+          yarn cache dir
+          yarn config get cacheFolder
         
       - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
         name: Install yarn
         run: npm install -g yarn
+        
+      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: |
+          yarn -v
+          yarn cache dir
+          yarn config get cacheFolder
+        
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: |
+          echo "::set-output name=dir::$(yarn cache dir)"
+          echo "::set-output name=cachedir::$(yarn config get cacheFolder)"
+          echo "::set-output name=version::$(yarn -v)"
       
       - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
         name: Install dependencies
@@ -80,16 +100,7 @@ jobs:
         run: |
           zip -r jimmer-doc.zip ./jimmer-doc/*
           ls
-          
-      - name: Upload Build Artifact
-        if: success()
-        uses: actions/upload-artifact@v3
-        with:
-          name: jimmer-doc.zip
-          path: ./jimmer-doc
-          if-no-files-found: warn
-          retention-days: 90
-      
+                
       - name: Get release asset ID
         id: get_asset_id
         run: |
