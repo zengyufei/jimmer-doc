@@ -29,16 +29,23 @@ jobs:
         with:
           node-version: 18
 
-      - name: Cache node npm
-        id: cache-npm
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: |
+          echo "::set-output name=dir::$(yarn cache dir)"
+          echo "::set-output name=version::$(yarn -v)"
+          
+      - name: Cache node yarn
+        id: cache-yarn
         uses: actions/cache@v3
         env:
-          cache-name: cache-node-npm
+          cache-name: cache-node-yarn
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          path: |
+            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ steps.yarn-cache-dir-path.outputs.version }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}
+            ${{ runner.os }}-yarn-${{ steps.yarn-cache-dir-path.outputs.version }}
           
       - name: Cache node modules
         id: cache-modules
@@ -53,32 +60,20 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: List the state of node modules
+
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
         continue-on-error: true
         run: |
           ls
+          
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: |
           pwd
           yarn -v
           yarn cache dir
-          yarn config get cacheFolder
-        
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Install yarn
-        run: npm install -g yarn
-        
-      - name: List the state of node modules
-        continue-on-error: true
-        run: |
-          yarn -v
-          yarn cache dir
-          yarn config get cacheFolder
-        
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: |
-          echo "::set-output name=dir::$(yarn cache dir)"
-          echo "::set-output name=cachedir::$(yarn config get cacheFolder)"
-          echo "::set-output name=version::$(yarn -v)"
       
       - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
         name: Install dependencies
