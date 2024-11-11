@@ -29,6 +29,12 @@ jobs:
         with:
           node-version: 18
 
+      - name: look
+        continue-on-error: true
+        run: |
+          cd ~
+          ls -l
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: |
