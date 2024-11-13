@@ -21,7 +21,7 @@ In Jimmer SQL DSL, created join objects that are not used will be ignored. For e
 BookTable table = Tables.BOOK_TABLE;
 
 // highlight-next-line
-System.out.println("Unsed join: " + table.store());
+System.out.println("Unused join: " + table.store());
 
 List<Book> books = sqlClient
     .createQuery(table) 
@@ -38,7 +38,7 @@ val books = sqlClient
     .createQuery(Book::class) {
         
         // highlight-next-line
-        println("Unsed join: ${table.store}")
+        println("Unused join: ${table.store}")
 
         orderBy(table.name.asc(), table.edition.desc())
         select(table)
@@ -672,7 +672,7 @@ The equivalence of the two query methods is a precondition for half join elimina
 
 Half join elimination is only applicable to accessing the `id` property of associated objects, not other properties.
 
-Here, accessing the `Autor.firstName` property of the associated object is used as an example to demonstrate the inability to eliminate the second join.
+Here, accessing the `Author.firstName` property of the associated object is used as an example to demonstrate the inability to eliminate the second join.
 
 <Tabs groupId="language">
 <TabItem value="java" label="Java">

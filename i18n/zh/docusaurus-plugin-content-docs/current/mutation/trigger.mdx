@@ -181,7 +181,7 @@ TriggerType有三个取值
 
 如果使用SpringBoot Starter，设置触发器类型非常简单。
 
-在`application.properties`或`applicaion.yml`中添加一个配置即可。其名称为`jimmer.trigger-type`，其值为`BINLOG_ONLY` | `TRANSACTION_ONLY` | `BOTH`。
+在`application.properties`或`application.yml`中添加一个配置即可。其名称为`jimmer.trigger-type`，其值为`BINLOG_ONLY` | `TRANSACTION_ONLY` | `BOTH`。
 
 ### 不使用Jimmer Spring Boot Starter
 
@@ -194,7 +194,7 @@ JSqlClient sqlClient = JSqlClient
     // highlight-next-line
     .setTriggerType(TriggerType.BOTH)
     ...省略其他配置...
-    .builde();
+    .build();
 ```
 
 </TabItem>
@@ -278,7 +278,7 @@ Jimmer对这类选择未做任何限制。但为简化问题讨论，本文假�
     数据库和变更推送技术的不同选择导致的监听代码变化，就是指这个步骤。然而，这并不难，对消息内容稍加观察即可轻松实现。
     :::
 
-4.  以`tableName`、`oldJsonNode`和`newJsonNode`调用`JSqlClient.getBinLog().accept`或`KSqlCient.binLog.accept`
+4.  以`tableName`、`oldJsonNode`和`newJsonNode`调用`JSqlClient.getBinLog().accept`或`KSqlClient.binLog.accept`
 
 下面的例子，分别演示`MySQL + Maxwell`和`Postgres + Debezium`两种情况。
 
@@ -669,7 +669,7 @@ Jimmer对这类选择未做任何限制。但为简化问题讨论，本文假�
         @EventListener
         fun onAssociationChanged(e: AssociationEvent) {
             if (e.isChanged(Book::store)) {
-                pprintln("The many-to-one association `Book.store` is changed")
+                println("The many-to-one association `Book.store` is changed")
                 println("\tbook id: ${it.sourceId}")
                 println("\tdetached book store id: ${it.detachedTargetId}")
                 println("\tattached book store id: ${it.attachedTargetId}")

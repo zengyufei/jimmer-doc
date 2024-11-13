@@ -68,13 +68,13 @@ fun saveBook(
 ```json
 {
     "name": "SQL in Motion",
-    "edtion": 1,
+    "edition": 1,
     "price": 41.99,
     "store":{
         "name": "MANNING",
         "location": {
             "city": "Vancouver",
-            "contry": "Canada",
+            "country": "Canada",
             ...略...
         }
     },
@@ -95,15 +95,15 @@ fun saveBook(
 }
 ```
 
-假如你提供这个HTTPAPI的本意是，能够被影响的表仅限于`BOOK`, `BOOK_STORE`, `AUTHOR`和`BOOK_AUTHOR_MAPPING`这四张表。
+假如你提供这个HTTP API的本意是，能够被影响的表仅限于`BOOK`, `BOOK_STORE`, `AUTHOR`和`BOOK_AUTHOR_MAPPING`这四张表。
 
 然而，现在客户端提交的数据的波及范围太大，具备远超你所设想的破坏能力。上面的例子，至少存在4个意外破坏：
 
 -   `<root>.store.location.city`被修改，从`New York`变成`Vancouver`
 
--   `<root>.store.location.contry`被修改，从`USA`变成`Canada`
+-   `<root>.store.location.country`被修改，从`USA`变成`Canada`
 
--   `<root>.authors[0].job.comany`被修改，从`NAB`变成`IBM`
+-   `<root>.authors[0].job.company`被修改，从`NAB`变成`IBM`
 
 -   `<root>.authors[0].job.title`被修改，从`Senior Business Analyst`变成`Senior HR Manager`
 
