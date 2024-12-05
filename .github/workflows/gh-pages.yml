@@ -43,6 +43,10 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - if: ${{ steps.cache-modules.outputs.cache-hit != 'true' }}
+        name: Install dependencies
+        run: yarn install
+
       - run: yarn build
             
       - name: Rename Build
