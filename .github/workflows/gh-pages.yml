@@ -92,6 +92,10 @@ jobs:
           asset_name: jimmer-doc.zip
           tag: release
 
+      - name: Copy dist to public root
+        run: |
+          mkdir -p ./public/jimmer-doc
+          cp -r ./jimmer-doc/* ./public/jimmer-doc
           
       - name: Upload to Cloudflare Pages
         uses: cloudflare/pages-action@v1
@@ -99,4 +103,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: jimmer
-          directory: ./jimmer-doc/jimmer-doc
+          directory: ./public
