@@ -92,10 +92,11 @@ jobs:
           asset_name: jimmer-doc.zip
           tag: release
 
+          
       - name: Upload to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: jimmer
-          directory: ./jimmer-doc
+          directory: ./jimmer-doc/jimmer-doc
